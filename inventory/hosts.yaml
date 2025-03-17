@@ -1,0 +1,51 @@
+all:
+  vars:
+    ansible_user: ansible
+  children:
+    database:
+      hosts:
+       db1:
+         ansible_host: 192.168.159.135
+         wsrep_node_address: 192.168.159.135
+         wsrep_node_name: db1
+       db2:
+        ansible_host: 192.168.159.136
+        wsrep_node_address: 192.168.159.136
+        wsrep_node_name: db2
+       db3:
+        ansible_host: 192.168.159.137
+        wsrep_node_address: 192.168.159.137
+        wsrep_node_name: db3
+
+    zabbix_server:
+      hosts:
+        zbx-server1:
+          ansible_host: 192.168.159.131
+          db_host: 192.168.159.140  # Your VIP or cluster IP
+          db_password: MyPassword!@#
+        zbx-server2:
+          ansible_host: 192.168.159.132
+          db_host: 192.168.159.140  # Your VIP or cluster IP
+          db_password: MyPassword!@#
+    
+    zabbix_web:
+      hosts:
+        zbx-web1:
+          ansible_host: 192.168.159.133
+          db_host: 192.168.159.140
+          db_password: MyPassword!@#
+        zbx-web2:
+          ansible_host: 192.168.159.134
+          db_host: 192.168.159.140
+          db_password: MyPassword!@#
+
+    
+    loadbalancers:
+      hosts:
+        lb1:
+          ansible_host: 192.168.159.138
+        lb2:
+          ansible_host: 192.168.159.139
+
+    agents:
+      hosts: {}  # Empty, future use for agents

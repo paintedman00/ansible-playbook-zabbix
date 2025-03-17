@@ -1,0 +1,6 @@
+---
+- name: Install and configure Zabbix Web Frontend
+  hosts: zabbix_web
+  become: true
+  roles:
+    - zabbix-web

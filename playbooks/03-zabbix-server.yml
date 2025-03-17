@@ -1,0 +1,7 @@
+# Placeholder for playbooks/03-zabbix-server.yml
+---
+- name: Install and configure Zabbix Server
+  hosts: zabbix_server
+  become: true
+  roles:
+    - zabbix-server

@@ -1,0 +1,30 @@
+# Placeholder for roles/haproxy/tasks/main.yml
+---
+- name: Install HAProxy
+  apt:
+    name: haproxy
+    state: present
+    update_cache: yes
+
+- name: Deploy HAProxy configuration
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart HAProxy
+
+- name: Install MariaDB
+  apt:
+    name:
+    
+      - mariadb-client  
+    state: present
+
+
+- name: Ensure HAProxy is enabled and started
+  systemd:
+    name: haproxy
+    enabled: true
+    state: started

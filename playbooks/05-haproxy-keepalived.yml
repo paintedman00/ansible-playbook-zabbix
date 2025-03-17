@@ -1,0 +1,7 @@
+---
+- name: Install and configure HAProxy and Keepalived
+  hosts: loadbalancers
+  become: true
+  roles:
+    - haproxy
+    - keepalived

@@ -1,0 +1,7 @@
+---
+- name: Bootstrap Galera on db1 (FIRST NODE ONLY)
+  hosts: db1
+  become: true
+  tasks:
+    - name: Bootstrap Galera Cluster (First Node)
+      command: galera_new_cluster

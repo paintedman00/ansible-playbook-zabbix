@@ -1,0 +1,2 @@
+keepalived_interface: ens33  # Adjust this to your actual network interface name
+

@@ -1,0 +1,31 @@
+---
+- name: Install MariaDB and Galera
+  apt:
+    name:
+      - mariadb-server
+      - galera-4
+      - rsync
+    state: present
+    update_cache: yes
+
+- name: Install PyMySQL for Ansible MySQL modules
+  apt:
+    name: python3-pymysql
+    state: present
+    update_cache: yes
+
+- name: Ensure MariaDB listens on all interfaces (0.0.0.0)
+  lineinfile:
+    path: /etc/mysql/mariadb.conf.d/50-server.cnf
+    regexp: '^bind-address'
+    line: 'bind-address = 0.0.0.0'
+  # notify: Restart MariaDB  # ❌ Remove or comment this
+
+- name: Deploy Galera configuration
+  template:
+    src: galera.cnf.j2
+    dest: /etc/mysql/mariadb.conf.d/60-galera.cnf
+    owner: root
+    group: root
+    mode: '0644'
+  # notify: Restart MariaDB  # ❌ Remove or comment this

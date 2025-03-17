@@ -1,0 +1,3 @@
+keepalived_priority: 90
+keepalived_state: BACKUP
+

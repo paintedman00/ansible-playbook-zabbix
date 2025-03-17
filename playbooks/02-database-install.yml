@@ -1,0 +1,11 @@
+---
+- name: Install MariaDB and Galera on DB nodes
+  hosts: db
+
+  tasks:
+    - name: Install MariaDB and Galera packages
+      apt:
+        name:
+          - mariadb-server
+          - galera-4
+        state: present

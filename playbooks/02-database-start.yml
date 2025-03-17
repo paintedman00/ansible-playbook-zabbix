@@ -1,0 +1,10 @@
+---
+- name: Start Galera on db2 and db3
+  hosts: db2,db3
+  become: true
+  tasks:
+    - name: Start MariaDB normally
+      systemd:
+        name: mariadb
+        state: started
+        enabled: true

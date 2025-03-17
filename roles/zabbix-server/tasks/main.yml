@@ -1,0 +1,37 @@
+---
+- name: Download the latest Zabbix release package
+  get_url:
+    url: https://repo.zabbix.com/zabbix/7.2/release/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest_7.2+ubuntu24.04_all.deb
+    dest: /tmp/zabbix-release_latest_7.2+ubuntu24.04_all.deb
+
+- name: Install Zabbix release package
+  apt:
+    deb: /tmp/zabbix-release_latest_7.2+ubuntu24.04_all.deb
+    state: present
+
+- name: Update apt cache after adding Zabbix repo
+  apt:
+    update_cache: yes
+
+- name: Install Zabbix server, SQL scripts, and agent
+  apt:
+    name:
+      - zabbix-server-mysql
+      - zabbix-sql-scripts
+      - zabbix-agent
+    state: present
+
+- name: Configure Zabbix server to connect to MariaDB Galera Cluster
+  template:
+    src: zabbix_server.conf.j2
+    dest: /etc/zabbix/zabbix_server.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Zabbix Server
+
+- name: Ensure Zabbix server is enabled and started
+  systemd:
+    name: zabbix-server
+    enabled: true
+    state: started

@@ -1,0 +1,34 @@
+---
+- name: Set hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Add /etc/hosts entries
+  copy:
+    dest: /etc/hosts
+    content: |
+      127.0.0.1 localhost
+      192.168.159.131 zbx-server1
+      192.168.159.132 zbx-server2
+      192.168.159.133 zbx-web1
+      192.168.159.134 zbx-web2
+      192.168.159.135 db1
+      192.168.159.136 db2
+      192.168.159.137 db3
+      192.168.159.138 lb1
+      192.168.159.139 lb2
+      192.168.159.140 zabbix-vip
+
+- name: Ensure ansible user is present
+  user:
+    name: ansible
+    groups: sudo
+    append: yes  # Equivalent to usermod -aG sudo ansible
+    shell: /bin/bash
+    state: present
+
+- name: Set up sudoers for ansible user (passwordless sudo)
+  copy:
+    dest: /etc/sudoers.d/ansible
+    content: "ansible ALL=(ALL) NOPASSWD:ALL"
+    mode: '0440'

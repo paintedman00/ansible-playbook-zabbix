@@ -1,0 +1,6 @@
+---
+- name: Setup MariaDB Galera Cluster (Install & Configure Only)
+  hosts: database
+  become: true
+  roles:
+    - database  # Only configure, no bootstrap or restart

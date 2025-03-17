@@ -1,0 +1,38 @@
+---
+- name: Download the latest Zabbix release package
+  get_url:
+    url: https://repo.zabbix.com/zabbix/7.2/release/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest_7.2+ubuntu24.04_all.deb
+    dest: /tmp/zabbix-release_latest_7.2+ubuntu24.04_all.deb
+
+- name: Install Zabbix release package
+  apt:
+    deb: /tmp/zabbix-release_latest_7.2+ubuntu24.04_all.deb
+    state: present
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install Zabbix frontend, Apache, PHP 8.3, and MariaDB client
+  apt:
+    name:
+      - zabbix-frontend-php
+      - zabbix-apache-conf
+      - php8.3-mysql
+      - mariadb-client  
+    state: present
+
+- name: Configure Zabbix Web connection to DB
+  template:
+    src: zabbix.conf.php.j2
+    dest: /etc/zabbix/web/zabbix.conf.php
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Apache
+
+- name: Ensure Apache is enabled and started
+  systemd:
+    name: apache2
+    enabled: true
+    state: started
