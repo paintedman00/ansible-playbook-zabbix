@@ -8,7 +8,7 @@
 - name: Create Zabbix User with Privileges
   community.mysql.mysql_user:
     name: zabbix
-    password: MyPassword!@#
+    password: NewSecurePassword
     priv: "zabbix.*:ALL"
     host: "%"
     state: present

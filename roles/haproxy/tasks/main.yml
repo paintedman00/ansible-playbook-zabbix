@@ -1,10 +1,23 @@
-# Placeholder for roles/haproxy/tasks/main.yml
 ---
-- name: Install HAProxy
+- name: Install HAProxy and MariaDB client
   apt:
-    name: haproxy
+    name:
+      - haproxy
+      - mariadb-client
     state: present
     update_cache: yes
+
+- name: Ensure HAProxy config directory exists
+  file:
+    path: /etc/haproxy
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Set HAProxy bind IP
+  set_fact:
+    haproxy_bind_ip: "192.168.159.139"
 
 - name: Deploy HAProxy configuration
   template:
@@ -14,14 +27,6 @@
     group: root
     mode: '0644'
   notify: Restart HAProxy
-
-- name: Install MariaDB
-  apt:
-    name:
-    
-      - mariadb-client  
-    state: present
-
 
 - name: Ensure HAProxy is enabled and started
   systemd:

@@ -15,18 +15,9 @@
     - name: Create Zabbix User with full access
       community.mysql.mysql_user:
         name: zabbix
-        password: MyPassword!@#
+        password: NewSecurePassword
         priv: "zabbix.*:ALL"
         host: "%"
         state: present
         login_unix_socket: /var/run/mysqld/mysqld.sock
 
-
-
-# - name: Create Zabbix database and user (AFTER cluster is up)
-#   hosts: db1
-#   become: true
-#   collections:
-#     - community.mysql
-#   tasks:
-#     - import_tasks: roles/database/tasks/zabbix-db.yml

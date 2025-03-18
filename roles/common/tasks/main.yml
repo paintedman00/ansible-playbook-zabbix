@@ -15,10 +15,8 @@
       192.168.159.135 db1
       192.168.159.136 db2
       192.168.159.137 db3
-      192.168.159.138 lb1
       192.168.159.139 lb2
-      192.168.159.140 zabbix-vip
-
+      
 - name: Ensure ansible user is present
   user:
     name: ansible

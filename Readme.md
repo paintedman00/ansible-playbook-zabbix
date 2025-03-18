@@ -24,6 +24,6 @@ ansible-playbook playbooks/03-zabbix-server.yml --limit zbx-server1,zbx-server2
 ansible-playbook playbooks/04-zabbix-web.yml --limit zbx-web1,zbx-web2
 
 # ✅ 7. Finalize and deploy HAProxy + Keepalived for LB/HA
-ansible-playbook playbooks/05-haproxy-keepalived.yml --limit lb1,lb2
+ansible-playbook playbooks/05-haproxy-keepalived.yml --limit lb2
 
 

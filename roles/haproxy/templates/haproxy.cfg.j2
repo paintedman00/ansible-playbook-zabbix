@@ -37,16 +37,20 @@ backend zabbix_server_backends
   server zbx-server1 192.168.159.131:10051 check
   server zbx-server2 192.168.159.132:10051 check backup
 
-# Galera DB
-frontend mysql
-  bind *:3306
-  mode tcp
-  default_backend galera_cluster
+# Galera Cluster Frontend configuration
+frontend galera_cluster_frontend
+    bind 192.168.159.139:3306  # Replace with your HAProxy server IP
+    mode tcp
+    option tcplog
+    default_backend galera_cluster_backend
 
-backend galera_cluster
-  mode tcp
-  balance roundrobin
-  option mysql-check user zabbix
-  server db1 192.168.159.135:3306 check
-  server db2 192.168.159.136:3306 check
-  server db3 192.168.159.137:3306 check
+# Galera Cluster Backend configuration
+backend galera_cluster_backend
+    mode tcp
+    option tcpka
+    option mysql-check user haproxy  # Use dedicated HAProxy MySQL check user
+    balance leastconn  # Selects the least loaded database node
+    server db1 192.168.159.135:3306 check weight 1
+    server db2 192.168.159.136:3306 check weight 1
+    server db3 192.168.159.137:3306 check weight 1
+
