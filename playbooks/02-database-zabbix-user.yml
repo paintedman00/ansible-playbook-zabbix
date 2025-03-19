@@ -21,3 +21,11 @@
         state: present
         login_unix_socket: /var/run/mysqld/mysqld.sock
 
+    - name: Create HAProxy User with full access
+      community.mysql.mysql_user:
+        name: haproxy
+        password: NewSecurePassword
+        priv: "haproxy.*:ALL"
+        host: "%"
+        state: present
+        login_unix_socket: /var/run/mysqld/mysqld.sock
